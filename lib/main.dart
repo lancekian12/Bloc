@@ -48,9 +48,24 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               "You have pushed the button this many times:",
             ),
-            Text(
-              'COUNTER VALUE',
-              style: Theme.of(context).textTheme.headlineLarge,
+            BlocBuilder<CounterCubit, CounterState>(
+              builder: (context, state) {
+                if (state.counterValue < 0) {
+                  return Text(
+                    'BRR NEGATIVE ' + state.counterValue.toString(),
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  );
+                } else if (state.counterValue % 2 == 0) {
+                  return Text(
+                    'YAAYYY ' + state.counterValue.toString(),
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  );
+                }
+                return Text(
+                  state.counterValue.toString(),
+                  style: Theme.of(context).textTheme.headlineLarge,
+                );
+              },
             ),
             const SizedBox(
               height: 16,
