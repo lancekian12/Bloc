@@ -1,44 +1,82 @@
-import 'package:bloc/bloc.dart';
+import 'package:bloc_counter/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-enum CounterEvent { increment, decrement }
+void main() {
+  runApp(MyApp());
+}
 
-class CounterBloc extends Bloc<CounterEvent, int> {
-  CounterBloc() : super(0);
-
-  Stream<int> mapEventToState(CounterEvent event) async* {
-    switch (event) {
-      case CounterEvent.increment:
-        yield state + 1;
-        break;
-      case CounterEvent.decrement:
-        yield state - 1;
-        break;
-    }
-    throw UnimplementedError();
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<CounterCubit>(
+      create: (context) => CounterCubit(),
+      child: MaterialApp(
+        title: 'Flutter Concept',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: MyHomePage(title: "Flutter"),
+      ),
+    );
   }
 }
 
-Future<void> main(List<String> args) async {
-  final bloc = CounterBloc();
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  final streamSubscription = bloc.stream.listen(print);
+  final String title;
 
-  bloc.add(CounterEvent.increment);
-
-  await Future.delayed(Duration.zero);
-  await bloc.close();
+  @override
+  State<MyHomePage> createState() {
+    return _MyHomePageState();
+  }
 }
 
-// void main(List<String> args) {
-//   final cubit = CounterCubit();
-//   print(cubit.state);
-//   cubit.increment();
-//   cubit.increment();
-//   cubit.decrement();
-//   print(cubit.state);
-// }
-
-// void main() {
-//   runApp(const MyApp());
-// }
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              "You have pushed the button this many times:",
+            ),
+            Text(
+              'COUNTER VALUE',
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).decerement();
+                  },
+                  tooltip: 'Decrement',
+                  child: const Icon(Icons.remove),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).increment();
+                  },
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
