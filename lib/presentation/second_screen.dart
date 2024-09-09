@@ -91,11 +91,6 @@ class _SecondScreenState extends State<SecondScreen> {
               ],
             ),
             const SizedBox(height: 24),
-            MaterialButton(
-              color: widget.color,
-              onPressed: () {},
-              child: const Text('Go to Second Screen'),
-            )
           ],
         ),
       ),
