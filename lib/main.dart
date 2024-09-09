@@ -10,20 +10,8 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   final AppRouter _appRouter = AppRouter();
-  final CounterCubit _counterCubit = CounterCubit();
-
-  @override
-  void dispose() {
-    _appRouter.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
