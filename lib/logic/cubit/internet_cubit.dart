@@ -12,9 +12,25 @@ class InternetCubit extends Cubit<InternetState> {
   late StreamSubscription connectivityStreamSubscription;
 
   InternetCubit({required this.connectivity}) : super(InternetLoading()) {
+    // Perform an initial connectivity check
+    checkInitialConnectivity();
+    // Monitor changes in connectivity
     monitorInternetConnection();
   }
 
+  // Initial connectivity check
+  void checkInitialConnectivity() async {
+    final connectivityResult = await connectivity.checkConnectivity();
+    if (connectivityResult == ConnectivityResult.wifi) {
+      emitInternetConnected(ConnectionType.Wifi);
+    } else if (connectivityResult == ConnectivityResult.mobile) {
+      emitInternetConnected(ConnectionType.Mobile);
+    } else {
+      emitInternetDisconnected();
+    }
+  }
+
+  // Monitoring future connectivity changes
   void monitorInternetConnection() {
     connectivityStreamSubscription =
         connectivity.onConnectivityChanged.listen((connectivityResult) {
@@ -22,7 +38,7 @@ class InternetCubit extends Cubit<InternetState> {
         emitInternetConnected(ConnectionType.Wifi);
       } else if (connectivityResult == ConnectivityResult.mobile) {
         emitInternetConnected(ConnectionType.Mobile);
-      } else if (connectivityResult == ConnectivityResult.none) {
+      } else {
         emitInternetDisconnected();
       }
     });
