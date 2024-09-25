@@ -3,6 +3,7 @@ part of 'internet_cubit.dart';
 @immutable
 sealed class InternetState {}
 
+
 final class InternetLoading extends InternetState {}
 
 class InternetConnected extends InternetState {
