@@ -8,7 +8,7 @@ class AppRouter {
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (_) => const HomeScreen(
+          builder: (_) => HomeScreen(
             title: 'HomeScreen',
             color: Colors.blueAccent,
           ),

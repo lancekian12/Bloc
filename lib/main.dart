@@ -22,14 +22,15 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.appRouter, required this.connectivity});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext myAppContext) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<InternetCubit>(
-          create: (context) => InternetCubit(connectivity: connectivity),
+          create: (internetCubitContext) =>
+              InternetCubit(connectivity: connectivity),
         ),
         BlocProvider<CounterCubit>(
-          create: (context) => CounterCubit(),
+          create: (counterCubitContext) => CounterCubit(),
         ),
       ],
       child: MaterialApp(

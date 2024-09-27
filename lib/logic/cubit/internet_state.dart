@@ -1,10 +1,9 @@
 part of 'internet_cubit.dart';
 
 @immutable
-sealed class InternetState {}
+abstract class InternetState {}
 
-
-final class InternetLoading extends InternetState {}
+class InternetLoading extends InternetState {}
 
 class InternetConnected extends InternetState {
   final ConnectionType connectionType;
